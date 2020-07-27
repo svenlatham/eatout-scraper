@@ -7,6 +7,7 @@
  */
 
 define('PLACES', './places.csv');
+define('STATE', './state.json');
 
 // Suppress DOM errors:
 libxml_use_internal_errors(true);
@@ -102,13 +103,31 @@ function writeEntries() {
     fclose($fp);
 }
 
+function readState() {
+    global $searched, $queue;
+    if (!file_exists(STATE)) { return; }
+    $state = json_decode(file_get_contents(STATE), true);
+    $searched = $state['searched'];
+    $queue = $state['queue'];
+}
 
-// Let's do this...
-readEntries();
+function writeState() {
+    global $searched, $queue;
+    $state = ['searched'=> $searched, 'queue' => $queue];
+    $fp = fopen(STATE,'w');
+    fputs($fp, json_encode($state));
+    fclose($fp);
+}
 
 $searched = []; // Postcodes already scanned
-$queue[] = 'SW1A1AA'; // Postcodes to scan
+$queue[] = 'PO63EN'; // Postcodes to scan
 
+// Let's do this...
+readState();
+readEntries();
+
+
+$nextWrite = time() + 60;
 while (count($queue) > 0) {
     // First, check there are no searched entries in the queue:
     $queue = array_unique($queue);
@@ -129,5 +148,9 @@ while (count($queue) > 0) {
     }
     $searched[] = $postcode;
     sleep(1); // Website courtesy
-    writeEntries();
+    if ($nextWrite < time() ) {
+        writeEntries();
+        writeState();
+        $nextWrite = time() + 60;
+    }
 }
