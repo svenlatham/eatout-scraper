@@ -109,9 +109,9 @@ readEntries();
 $searched = []; // Postcodes already scanned
 $queue[] = 'SW1A1AA'; // Postcodes to scan
 
-
 while (count($queue) > 0) {
     // First, check there are no searched entries in the queue:
+    $queue = array_unique($queue);
     $queue = array_diff($queue, $searched);
 
     $postcode = array_pop($queue);
@@ -120,13 +120,12 @@ while (count($queue) > 0) {
     $results = getList($postcode);
     foreach ($results as $result) {
         // Have we seen this before? If so, ignore!
-        $key = md5($result[2] . $result[4]);
+        $key = $result[1];
         if (!array_key_exists($key, $entries)) {
             $entries[$key] = $result;
             printf("Adding %s\n", implode("   ", $result));
-            $queue[] = $result[4]; // We'll dedupe later...
         }
-        
+        $queue[] = $result[4]; // We do this even if the result has already been round. We'll dedupe later...        
     }
     $searched[] = $postcode;
     sleep(1); // Website courtesy
