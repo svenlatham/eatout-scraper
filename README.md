@@ -30,3 +30,5 @@ Contains National Statistics data © Crown copyright and database right (2020)
 # And finally...
 If they get the chance (it's a busy time), I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)
 
+# Coverage
+![coverage map of UK](coverage.png?raw=true)
