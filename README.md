@@ -2,6 +2,9 @@
 A simple tool to scrape the Eat Out to Help Out discount scheme
 https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant/results?postcode=SW1a+1aa
 
+# Looking for the data?
+Here it is: [List of businesses registered for Eat Out to Help Out (CSV)](places.csv?raw=true) (4.1Mb)
+
 # Methodology
 Using the postcode list at http://api.getthedata.com/postcode/ I built a list of postcodes to create a grid of searches across the British Isles.
 
