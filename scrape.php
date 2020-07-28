@@ -6,28 +6,10 @@
  * That'll cause issues where there's a 2mi gap (places will be lost) but should provide a fairly contiguous map otherwise. We'll see...
  */
 
-define('PLACES', './places.csv');
-define('STATE', './state.json');
+require_once 'global.php';
 
 // Suppress DOM errors:
 libxml_use_internal_errors(true);
-
-function normalisePostcode($in)
-{
-    $out = trim($in);
-    $out = strtoupper($out);
-    $out = str_replace(' ', '', $out);
-    return $out;
-}
-
-function generateHash($name, $postcode) {
-    // Aiming for collision free, reasonably compact and fairly robust...
-    $input = strtoupper(trim($name.$postcode));
-    $input = preg_replace('/[^A-Z0-9]/', '', $input); // Strip all but letters and numbers
-    $hash = md5($input);
-    $hash = substr(base64_encode(hex2bin($hash)),0,22);
-    return $hash;
-}
 
 function getList($query)
 {
@@ -63,45 +45,13 @@ function getList($query)
             $postcode = normalisePostcode(array_pop($addressParts));
             $address = implode(',', $addressParts);
             $hash = generateHash($name, $postcode);
-            $results[] = [time(), $hash, $name, $address, $postcode];
+            $results[] = [time(), $hash, $name, $address, $postcode, '', ''];
         }
     }
     return $results;
 }
 
 $entries = []; // scantime (unix timestamp), name, address ex postcode, postcode
-
-// Read this in...
-function readEntries() {
-    global $entries;
-    $entries = [];
-    if (!file_exists(PLACES)) { return; }
-    $fp = fopen(PLACES, 'r');
-    $header = true;
-    while (($line = fgetcsv($fp)) !== false) {
-        if ($header == true) {
-            $header = false; // It's the header
-            continue;
-        }
-        if (count($line) == 1) {
-            continue; // Blank line
-        }
-        if (count($line) != 5) {
-            throw new Exception("Could not read line {$line}");
-        }
-        $entries[$line[1]] = $line; // Line 1 contains the hash
-    }
-}
-
-function writeEntries() {
-    global $entries;
-    $fp = fopen(PLACES, 'w');
-    fputcsv($fp, ['scantime','hash','name','address','postcode']);
-    foreach($entries as $entry) {
-        fputcsv($fp, $entry);
-    }
-    fclose($fp);
-}
 
 function readState() {
     global $searched, $queue;
@@ -120,11 +70,13 @@ function writeState() {
 }
 
 $searched = []; // Postcodes already scanned
-$queue[] = 'PO63EN'; // Postcodes to scan
 
 // Let's do this...
 readState();
 readEntries();
+
+// Read in our searches list...
+$queue = explode("\n", file_get_contents('searches.csv'));
 
 
 $nextWrite = time() + 60;
@@ -133,6 +85,7 @@ while (count($queue) > 0) {
     $queue = array_unique($queue);
     $queue = array_diff($queue, $searched);
 
+    if (count($queue) == 0) { break; }
     $postcode = array_pop($queue);
     $postcode = normalisePostcode($postcode);
     printf("Queue contains %d, searched contains %d, we're searching %s\n", count($queue), count($searched), $postcode);
@@ -144,7 +97,7 @@ while (count($queue) > 0) {
             $entries[$key] = $result;
             printf("Adding %s\n", implode("   ", $result));
         }
-        $queue[] = $result[4]; // We do this even if the result has already been round. We'll dedupe later...        
+        //$queue[] = $result[4]; // We do this even if the result has already been round. We'll dedupe later...        
     }
     $searched[] = $postcode;
     sleep(1); // Website courtesy
@@ -154,3 +107,5 @@ while (count($queue) > 0) {
         $nextWrite = time() + 60;
     }
 }
+writeEntries();
+writeState();
