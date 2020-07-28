@@ -14,10 +14,10 @@ This data doesn't cover Northern Ireland, so that's a work in progress.
 
 # Disclaimers
 
-Therefore, I need to tell you:
 * Some businesses may be missing. GOV.UK is the authoritative source.
 * Northern Ireland is not included (yet).
 * This has not been sanctioned by HM Treasury. Purely personal project!
+* Some chains aren't listed individually. [A separate list is available](https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant/restaurant-chains)
 
 Contributions and visualisations welcome...!
 
