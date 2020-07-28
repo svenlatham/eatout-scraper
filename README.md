@@ -3,9 +3,18 @@ A simple tool to scrape the Eat Out to Help Out discount scheme
 https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant/results?postcode=SW1a+1aa
 
 # Methodology
-I don't have any clean (licence-compatible) datasets of postcodes to hand, so I've used a strategy of starting at an obvious central location, pulling out postcodes from results and reusing those to make future searches.
+Using the postcode list at http://api.getthedata.com/postcode/ I built a list of postcodes to create a grid of searches across the British Isles.
 
-This will work fine in urban areas, but will certainly miss entries in less-dense areas and possibly entire areas. We need to find a better way of doing this, otherwise it's not a comprehensive list.
+This should cover most populated areas quite well, but on the offchance there's a postcode covering a very wide area we might find the odd place missing.
+
+This data doesn't cover Northern Ireland, so that's a work in progress.
+
+# Disclaimers
+
+Therefore, I need to tell you:
+* Some businesses may be missing. GOV.UK is the authoritative source.
+* Northern Ireland is not included (yet).
+* This has not been sanctioned by HM Treasury. Purely personal project!
 
 Contributions and visualisations welcome...!
 
@@ -18,6 +27,6 @@ Contains OS data © Crown copyright and database right (2020)
 Contains Royal Mail data © Royal Mail copyright and Database right (2020)
 Contains National Statistics data © Crown copyright and database right (2020)
 
-
-If they get the chance, I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)
+# And finally...
+If they get the chance (it's a busy time), I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)
 
