@@ -10,6 +10,14 @@ This will work fine in urban areas, but will certainly miss entries in less-dens
 Contributions and visualisations welcome...!
 
 # Licence
-As per the original site, the data here is licenced under OGL.
+As per the original site, the data here is licenced under OGLv3 https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+
+Lat/Lng coordinates are from http://api.getthedata.com/postcode/
+
+Contains OS data © Crown copyright and database right (2020)
+Contains Royal Mail data © Royal Mail copyright and Database right (2020)
+Contains National Statistics data © Crown copyright and database right (2020)
+
 
 If they get the chance, I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)
+
