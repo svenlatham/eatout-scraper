@@ -107,7 +107,7 @@ while (count($queue) > 0) {
         }
     }
     $searched[] = $postcode;
-    sleep(1); // Website courtesy
+    sleep(0.2); // Website courtesy
     if ($nextWrite < time() ) {
         writeEntries();
         writeState();
