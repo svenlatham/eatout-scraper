@@ -90,6 +90,11 @@ while (count($queue) > 0) {
     $postcode = normalisePostcode($postcode);
     printf("Queue contains %d, searched contains %d, we're searching %s\n", count($queue), count($searched), $postcode);
     $results = getList($postcode);
+    $incorporatePostcodes = false;
+    if (count($results) == 100) {
+        printf("100 results, so we're going to delve deeper into this postcode area\n");
+        $incorporatePostcodes = true; // The search returns a maximum of 100 postcodes, so we might need to scour more closely here...
+    }
     foreach ($results as $result) {
         // Have we seen this before? If so, ignore!
         $key = $result[1];
@@ -97,7 +102,9 @@ while (count($queue) > 0) {
             $entries[$key] = $result;
             printf("Adding %s\n", implode("   ", $result));
         }
-        //$queue[] = $result[4]; // We do this even if the result has already been round. We'll dedupe later...        
+        if ($incorporatePostcodes) {
+            $queue[] = $result[4]; // Include this postcode in the search list
+        }
     }
     $searched[] = $postcode;
     sleep(1); // Website courtesy
