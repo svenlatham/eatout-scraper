@@ -5,6 +5,8 @@ https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant/results?pos
 # Looking for the data?
 Here it is: [List of businesses registered for Eat Out to Help Out (CSV)](places.csv?raw=true) (4.1Mb)
 
+**Note: HMRC have now [released the full list](https://github.com/hmrc/eat-out-to-help-out-establishments) and are keeping it regularly updated. You should use theirs instead.**
+
 # Methodology
 Using the postcode list at http://api.getthedata.com/postcode/ I built a list of postcodes to create a grid of searches across the British Isles.
 
