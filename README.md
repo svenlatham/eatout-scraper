@@ -33,7 +33,7 @@ Contains Royal Mail data © Royal Mail copyright and Database right (2020)
 Contains National Statistics data © Crown copyright and database right (2020)
 
 # And finally...
-If they get the chance (it's a busy time), I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)
+~~If they get the chance (it's a busy time), I hope GOV.UK release the dataset in full. Quite happy if this entire script is rendered redundant :)~~ This is [now done](https://github.com/hmrc/eat-out-to-help-out-establishments). Hooray!
 
 # Coverage
 ![coverage map of UK](coverage.png?raw=true)
